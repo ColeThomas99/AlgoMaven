@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/AlgoMaven.Backend.props" />
+</Project>

@@ -44,7 +44,7 @@ namespace AlgoMaven.Backend.Algorithms
                 decimal price = 0;
                 long time = 0;
                 BreakOutArgs bArgs = HasBreakOut(out price, out time);
-                if (bArgs == BreakOutArgs.Long)
+                if (bArgs == BreakOutArgs.Buy)
                 {
                     if (buyCount + 1 <= Options.MaxBuyBeforeSell)
                     {
@@ -58,7 +58,7 @@ namespace AlgoMaven.Backend.Algorithms
                         buyCount++;
                     }
                 }
-                else if (bArgs == BreakOutArgs.Short)
+                else if (bArgs == BreakOutArgs.Sell)
                 {
                     if (LastTradeType != ExchangeType.Sell)
                     {
@@ -102,9 +102,9 @@ namespace AlgoMaven.Backend.Algorithms
             }
 
             if (price > high)
-                return BreakOutArgs.Long; //trigger buy signal
+                return BreakOutArgs.Buy; //trigger buy signal
             else if (price < low)
-                return BreakOutArgs.Short; //trigger sell signal
+                return BreakOutArgs.Sell; //trigger sell signal
 
             return BreakOutArgs.None;
         }
@@ -112,8 +112,8 @@ namespace AlgoMaven.Backend.Algorithms
 
     public enum BreakOutArgs
     {
-        Long,
-        Short,
+        Buy,
+        Sell,
         None
     }
 }

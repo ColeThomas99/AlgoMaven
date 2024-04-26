@@ -6,6 +6,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AlgoMaven.Backend.Algorithms
 {
+	/// <summary>
+	/// This is an algorithm that follows the "Williams Aligator Indicator"
+	/// </summary>
 	public class AligatorAlgo : IAlgorithm
 	{
         public event EventHandler<TradeSignalArgs> OnBuySignalTriggered;
@@ -82,7 +85,7 @@ namespace AlgoMaven.Backend.Algorithms
 						{
 							TradeSignalArgs args = new TradeSignalArgs();
 							args.Instrument = Instrument;
-							args.Amount = Options.BuyIncrement; //this will lead to an error on a live market (check how many is available in wallet first)
+							args.Amount = Options.BuyIncrement; //this will lead to an error on a live market (check how many is available in wallet first) todo
 							args.Price = price;
 							args.SellAll = true;
 							args.Time = time;
@@ -92,8 +95,11 @@ namespace AlgoMaven.Backend.Algorithms
 						}
                     }
 				}
-
+#if DEBUG
 				await Task.Delay(4000);
+#else
+				await Task.Delay(60000);
+#endif
 			}
 
 			//return null;
@@ -102,7 +108,8 @@ namespace AlgoMaven.Backend.Algorithms
 		public decimal CalculateSMA(int period, out decimal price, out long time, bool debug = false, int index = 0)
 		{
 			//TODO if any price returns NULL then terminate the algorithm and terminate the bot
-			decimal value = 0;
+			//decimal value = 0;
+			List<decimal> result = new List<decimal>();
 			price = 0;
 			time = 0;
 
@@ -114,7 +121,7 @@ namespace AlgoMaven.Backend.Algorithms
 
 			for (int i = 0; i < period; i++)
 				if (prices.Count >= i + 1)
-					value += prices[i].Amount;
+					result.Add(prices[i].Amount);
 
 			if (prices.Count > 0)
 			{
@@ -122,7 +129,10 @@ namespace AlgoMaven.Backend.Algorithms
 				time = prices[0].Time.ToUnixTimeMilliseconds();
 			}
 
-            return value / period;
+			if (result.Count > 0)
+				return result.Average();
+			else
+				return 0;
 		}
 	}
 }

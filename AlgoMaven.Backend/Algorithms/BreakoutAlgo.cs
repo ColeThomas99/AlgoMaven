@@ -92,14 +92,16 @@ namespace AlgoMaven.Backend.Algorithms
                 ].First(x => x.Item3 == Instrument.TickerSYM).Item1.TakeLast(period).ToList();
             prices.Reverse();
 
-            decimal low = prices.Skip(1).Take(period).Min(x => x.Amount);
-            decimal high = prices.Skip(1).Take(period).Max(x => x.Amount);
-
             if (prices.Count > 0)
             {
                 price = prices[0].Amount;
                 time = prices[0].Time.ToUnixTimeMilliseconds();
             }
+            else
+                return BreakOutArgs.None;
+
+            decimal low = prices.Skip(1).Take(period).Min(x => x.Amount);
+            decimal high = prices.Skip(1).Take(period).Max(x => x.Amount);
 
             if (price > high)
                 return BreakOutArgs.Buy; //trigger buy signal

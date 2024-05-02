@@ -19,7 +19,7 @@ namespace AlgoMaven.Backend.Brokers
         public abstract List<FinancialInstrument> GetAvailableInstruments();
         public abstract decimal GetQuantityOfIntrsument(FinancialInstrument instrument);
         public UserAccount User;
-        public Dictionary<string, string> PlatofrmArgs = new Dictionary<string, string>(); //api keys, secrets, signatures etc
+        public Dictionary<string, string> PlatformArgs = new Dictionary<string, string>(); //api keys, secrets, signatures etc
         //public Dictionary<string, (InstrumentType ,int)> MarketAPIRankings = new Dictionary<string, (InstrumentType, int)>();
         //public List<FinancialInstrument> FinancialInstruments = new List<FinancialInstrument>();
 

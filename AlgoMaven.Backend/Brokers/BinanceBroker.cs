@@ -57,7 +57,7 @@ namespace AlgoMaven.Backend.Brokers
             }
 
             string requestJSON = JsonSerializer.Serialize(request);
-            string responseJSON = await SendHTTPPost(PlatofrmArgs["ORDERSAPI"], requestJSON, null); //TODO - HACK - FIXME
+            string responseJSON = await SendHTTPPost(PlatformArgs["ORDERSAPI"], requestJSON, null); //TODO - HACK - FIXME
 
             SpotOrderResponse? response = JsonSerializer.Deserialize<SpotOrderResponse>(responseJSON);
             if (response == null)

@@ -15,7 +15,7 @@ namespace AlgoMaven.Backend.Brokers
 		{
             Name = "Binance";
             URL = "https://www.binance.com";
-            PlatofrmArgs.Add("ORDERSAPI", Path.Combine(URL, "/api/v3/order"));
+            PlatformArgs.Add("ORDERSAPI", Path.Combine(URL, "/api/v3/order"));
 		}
 
         public override void AddInstrument(FinancialInstrument instrument, decimal quantity)

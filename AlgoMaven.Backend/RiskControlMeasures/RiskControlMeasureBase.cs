@@ -1,9 +1,9 @@
 ﻿using System;
 namespace AlgoMaven.Backend.RiskControlMeasures
 {
-	public class RiskControlMeasureBase
+	public abstract class RiskControlMeasureBase
 	{
-
+		public abstract bool HasTriggered(object args);
 	}
 }
 

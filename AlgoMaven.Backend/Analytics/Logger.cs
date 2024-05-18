@@ -5,10 +5,10 @@ namespace AlgoMaven.Backend.Analytics
 	{
 		private const string DefaultFileName = "log.csv";
 
-		public void LogEvent(LogEvent logEvent)
+		public async Task LogEvent(LogEvent logEvent)
 		{
 			if (!File.Exists(DefaultFileName))
-				CreateLogFile();
+				await CreateLogFile();
 
 			using (StreamWriter streamWriter = new StreamWriter(DefaultFileName))
 			{
@@ -17,7 +17,7 @@ namespace AlgoMaven.Backend.Analytics
 			}
 		}
 
-		public void CreateLogFile(string name = DefaultFileName)
+		public async Task CreateLogFile(string name = DefaultFileName)
 		{
 			try
 			{

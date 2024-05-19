@@ -1,23 +1,42 @@
 ﻿using System;
+using AlgoMaven.Backend.Models;
+
 namespace AlgoMaven.Backend.Analytics
 {
 	public class Logger
 	{
 		private const string DefaultFileName = "log.csv";
+		private const string PricesFileName = "prices.csv";
 
-		public async Task LogEvent(LogEvent logEvent)
+		public static async Task LogEvent(string? data = null, string file = DefaultFileName)
 		{
-			if (!File.Exists(DefaultFileName))
+			if (!File.Exists(file))
 				await CreateLogFile();
-
-			using (StreamWriter streamWriter = new StreamWriter(DefaultFileName))
+			try
 			{
-				string data = $"{logEvent.Name},{logEvent.ID},{logEvent.Type},{logEvent.Value},{logEvent.Extras}";
-				streamWriter.WriteLine(data);
+				using (StreamWriter streamWriter = File.AppendText(file))
+					streamWriter.WriteLine(data);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
 			}
 		}
 
-		public async Task CreateLogFile(string name = DefaultFileName)
+		public static async Task LogEvent(LogEvent logEvent)
+		{
+            string data = $"{logEvent.Date},{logEvent.Name},{logEvent.ID},{logEvent.Value},{logEvent.Extras}";
+            await LogEvent(data);
+		}
+
+		public static async Task LogEvent(PriceLogEvent priceLogEvent, List<PriceUpdate> prices)
+		{
+            priceLogEvent.Extras = string.Join(';', prices.Select(x => x.Amount));
+			string data = $"{priceLogEvent.Date},{priceLogEvent.APIFetchStartTime},{priceLogEvent.APIFetchEndTime},{priceLogEvent.Name},{priceLogEvent.ID},{priceLogEvent.InstrumentName},{priceLogEvent.Value},{priceLogEvent.Extras}";
+			await LogEvent(data, PricesFileName);
+		}
+
+		public static async Task CreateLogFile(string name = DefaultFileName)
 		{
 			try
 			{

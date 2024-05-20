@@ -1,6 +1,14 @@
-# <h1>AlgoMaven.Backend</h1>
+# <h1>AlgoMaven</h1>
 
 A basic Trading bot (currently only for paper trading) written in C# ASP.net Core.
+
+<h3>Features</h3>
+<ul>
+  <li>Customisable Trading Algorithms - select & configure different trading algorithms</li>
+  <li>Risk Control Measures - minimise risks associated with trades based on the performance of assets</li>
+  <li>Broker Exchange Integration - link your broker accounts to allow the bot to trade on your behalf</li>
+  <li>Live Market Data - obtain real-time market data to view prices of selected financial instruments</li>
+</ul>
 
 <h2>Algorithms</h2>
 <ul>

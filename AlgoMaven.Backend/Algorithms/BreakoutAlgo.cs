@@ -5,38 +5,14 @@ using AlgoMaven.Backend.Models;
 
 namespace AlgoMaven.Backend.Algorithms
 {
-	public class BreakoutAlgo : IAlgorithm
+	public class BreakoutAlgo : AlgorithmBase
 	{
-        public event EventHandler<TradeSignalArgs> OnBuySignalTriggered;
-        public event EventHandler<TradeSignalArgs> OnSellSignalTriggered;
-        public event EventHandler PriceUpdate;
-        private FinancialInstrument Instrument;
-        public Dictionary<DateTimeOffset, decimal> Prices = new Dictionary<DateTimeOffset, decimal>();
-        public ExchangeType LastTradeType { get; set; }
-        public BotOptions Options { get; set; }
-        public Dictionary<string, string> Auths { get; set; }
-
-        public BreakoutAlgo(FinancialInstrument instrument /* user args here */)
+        public BreakoutAlgo(FinancialInstrument instrument) : base(instrument)
         {
-            Instrument = instrument;
             Auths = new Dictionary<string, string>();
         }
 
-        protected virtual void BuySignalEvent(TradeSignalArgs args)
-        {
-            EventHandler<TradeSignalArgs> handler = OnBuySignalTriggered;
-            if (handler != null)
-                handler(this, args);
-        }
-
-        protected virtual void SellSignalEvent(TradeSignalArgs args)
-        {
-            EventHandler<TradeSignalArgs> handler = OnSellSignalTriggered;
-            if (handler != null)
-                handler(this, args);
-        }
-
-        public async Task Run()
+        public override async Task Run()
         {
             int buyCount = 0;
             while (true)
@@ -44,16 +20,12 @@ namespace AlgoMaven.Backend.Algorithms
                 decimal price = 0;
                 long time = 0;
                 BreakOutArgs bArgs = HasBreakOut(out price, out time);
+
                 if (bArgs == BreakOutArgs.Buy)
                 {
                     if (buyCount + 1 <= Options.MaxBuyBeforeSell)
                     {
-                        TradeSignalArgs args = new TradeSignalArgs();
-                        args.Instrument = Instrument;
-                        args.Amount = Options.BuyIncrement;
-                        args.Price = price;
-                        args.Time = time;
-                        BuySignalEvent(args);
+                        ExecuteTrade(price, time, ExchangeType.Buy);
                         LastTradeType = ExchangeType.Buy;
                         buyCount++;
                     }
@@ -62,14 +34,7 @@ namespace AlgoMaven.Backend.Algorithms
                 {
                     if (LastTradeType != ExchangeType.Sell)
                     {
-                        //sell
-                        TradeSignalArgs args = new TradeSignalArgs();
-                        args.Instrument = Instrument;
-                        args.Amount = Options.BuyIncrement; //this will lead to an error on a live market (check how many is available in wallet first) todo
-                        args.Price = price;
-                        args.SellAll = true;
-                        args.Time = time;
-                        SellSignalEvent(args);
+                        ExecuteTrade(price, time, ExchangeType.Sell);
                         LastTradeType = ExchangeType.Sell;
                         buyCount = 0;
                     }

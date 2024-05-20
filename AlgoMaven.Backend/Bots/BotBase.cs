@@ -9,7 +9,7 @@ namespace AlgoMaven.Backend.Bots
 	public abstract class BotBase
 	{
 		public BrokerBase Broker { get; set; }
-		public IAlgorithm Algorithm { get; set; }
+		public AlgorithmBase Algorithm { get; set; }
         public UserAccount User { get; set; }
         public FinancialInstrument Instrument { get; set; }
         public DateTimeOffset Start { get; set; }

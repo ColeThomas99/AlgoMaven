@@ -9,44 +9,14 @@ namespace AlgoMaven.Backend.Algorithms
 	/// <summary>
 	/// This is an algorithm that follows the "Williams Aligator Indicator"
 	/// </summary>
-	public class AligatorAlgo : IAlgorithm
+	public class AligatorAlgo : AlgorithmBase
 	{
-        public event EventHandler<TradeSignalArgs> OnBuySignalTriggered;
-        public event EventHandler<TradeSignalArgs> OnSellSignalTriggered;
-		public event EventHandler PriceUpdate;
-		private FinancialInstrument Instrument;
-		public Dictionary<DateTimeOffset, decimal> Prices = new Dictionary<DateTimeOffset, decimal>();
-		public ExchangeType LastTradeType { get; set; }
-		public BotOptions Options { get; set; }
-        public Dictionary<string, string> Auths { get; set; }
-
-        public AligatorAlgo(FinancialInstrument instrument /* user args here */)
+		public AligatorAlgo(FinancialInstrument instrument) : base(instrument)
 		{
-			Instrument = instrument;
 			Auths = new Dictionary<string, string>();
-			/*
-			 * configure price update event
-			 *	whenever theres a price update
-			 *		calculate using algo
-			 *			determine action (sell,buy,nothing)
-			 */
 		}
 
-		protected virtual void BuySignalEvent(TradeSignalArgs args)
-		{
-            EventHandler<TradeSignalArgs> handler = OnBuySignalTriggered;
-            if (handler != null)
-                handler(this, args);
-        }
-
-		protected virtual void SellSignalEvent(TradeSignalArgs args)
-		{
-            EventHandler<TradeSignalArgs> handler = OnSellSignalTriggered;
-            if (handler != null)
-                handler(this, args);
-        }
-
-		public async Task Run()
+		public override async Task Run()
 		{
             Console.WriteLine("Algorithm Started");
             int buyCount = 0;
@@ -55,10 +25,9 @@ namespace AlgoMaven.Backend.Algorithms
 			{
 				decimal price = 0;
 				long time = 0;
-				decimal jaw = CalculateSMA(13, out _, out _/*,true, i*/);
-				decimal teeth = CalculateSMA(8, out _, out _/*, true, i*/);
-				decimal lips = CalculateSMA(5, out price, out time/*, true, i*/);
-				//int buyCount = 0;
+				decimal jaw = CalculateSMA(13, out _, out _);
+				decimal teeth = CalculateSMA(8, out _, out _);
+				decimal lips = CalculateSMA(5, out price, out time);
 
 				if (lips > teeth)
 				{
@@ -66,12 +35,7 @@ namespace AlgoMaven.Backend.Algorithms
 					{
 						if (buyCount + 1 <= Options.MaxBuyBeforeSell)
 						{
-							TradeSignalArgs args = new TradeSignalArgs();
-							args.Instrument = Instrument;
-							args.Amount = Options.BuyIncrement;
-							args.Price = price;
-							args.Time = time;
-							BuySignalEvent(args);
+							ExecuteTrade(price, time, ExchangeType.Buy);
 							LastTradeType = ExchangeType.Buy;
 							buyCount++;
 						}
@@ -83,13 +47,7 @@ namespace AlgoMaven.Backend.Algorithms
 					{
 						if (LastTradeType != ExchangeType.Sell)
 						{
-							TradeSignalArgs args = new TradeSignalArgs();
-							args.Instrument = Instrument;
-							args.Amount = Options.BuyIncrement; //this will lead to an error on a live market (check how many is available in wallet first) todo
-							args.Price = price;
-							args.SellAll = true;
-							args.Time = time;
-							SellSignalEvent(args);
+							ExecuteTrade(price, time, ExchangeType.Sell);
 							LastTradeType = ExchangeType.Sell;
 							buyCount = 0;
 						}

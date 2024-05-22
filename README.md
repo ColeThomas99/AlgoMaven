@@ -19,8 +19,8 @@ A basic Trading bot (currently only for paper trading) written in C# ASP.net Cor
 
 <h2>Risk Control Measures</h2>
 <ul>
-  <li>Stop Loss [In Progress]</li>
-  <li>Take Profit [In Progress]</li>
+  <li>Stop Loss [Done]</li>
+  <li>Take Profit [Done]</li>
 </ul>
 
 <h2>Broker Exchanges</h2>

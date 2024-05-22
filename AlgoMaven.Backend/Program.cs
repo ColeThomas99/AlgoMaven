@@ -5,6 +5,7 @@ using AlgoMaven.Backend.Brokers;
 using AlgoMaven.Backend.Enums;
 using AlgoMaven.Backend.MarketData;
 using AlgoMaven.Backend.Models;
+using AlgoMaven.Backend.RiskControlMeasures;
 
 namespace AlgoMaven.Backend;
 
@@ -41,9 +42,9 @@ public class Program
 
         UserAccount user = new UserAccount();
         user.BrokerPlatforms.Add(new DummyBroker(ref user));
-        user.BrokerPlatforms[0].Wallet.AvailableFunds = 1000;
+        user.BrokerPlatforms[0].Wallet.AvailableFunds = 600;
         user.BrokerPlatforms[0].Wallet.UserInstruments = new List<UserFinancialInstrument>();
-        user.BrokerPlatforms[0].Wallet.UserInstruments.Add(new UserFinancialInstrument { Instrument = new FinancialInstrument { InstrumentType = InstrumentType.Crypto, Name = "Bitcoin", TickerSYM = "BTC" }, Quantity = 0 });
+        user.BrokerPlatforms[0].Wallet.UserInstruments.Add(new UserFinancialInstrument { Instrument = new FinancialInstrument { InstrumentType = InstrumentType.Crypto, Name = "SSV", TickerSYM = "SSV" }, Quantity = 0 });
         user.BrokerPlatforms[0].Wallet.UserInstruments.Add(new UserFinancialInstrument { Instrument = new FinancialInstrument { InstrumentType = InstrumentType.Crypto, Name = "Eth Coin", TickerSYM = "ETH" }, Quantity = 0 });
         user.BrokerPlatforms[0].Wallet.UserInstruments.Add(new UserFinancialInstrument { Instrument = new FinancialInstrument { InstrumentType = InstrumentType.Crypto, Name = "BNB Coin", TickerSYM = "BNB" }, Quantity = 0 });
 
@@ -59,14 +60,18 @@ public class Program
             new FinancialInstrument
             { InstrumentType = InstrumentType.Crypto, Name = "Bitcoin", TickerSYM = "BTC" }
             , user.BrokerPlatforms[0]);*/
-
+        
         StandardBot bot = new StandardBot();
-        bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        //bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        //bot.Algorithm = new BreakoutAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
        // bot.Instrument = user.BrokerPlatforms[0].Wallet.UserInstruments[2].Instrument;
         bot.Broker = user.BrokerPlatforms[0];
         bot.User = user;
-        bot.Options.BuyIncrement = (decimal)0.004;
-        bot.Options.MaxBuyBeforeSell = 6;
+        bot.Options.BuyIncrement = (decimal)5;
+        bot.Options.MaxBuyBeforeSell = 2;
+        bot.Options.RCMs.Add(new
+            TakeProfitRCM(){ TriggerPrice = 2 });
         bot.Algorithm.Options = bot.Options;
         await bot.Run();
 

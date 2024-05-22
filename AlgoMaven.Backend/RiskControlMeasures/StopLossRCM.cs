@@ -7,11 +7,12 @@ namespace AlgoMaven.Backend.RiskControlMeasures
 
         public StopLossRCM()
 		{
+            RCMAction = RCMAction.Sell | RCMAction.Terminate;
 		}
 
-        public override bool HasTriggered(object args)
+        public override bool HasTriggered(object[] args)
         {
-            decimal currentPrice = (decimal)args;
+            decimal currentPrice = (decimal)args[0];
 
             if (currentPrice <= TriggerPrice)
                 return true;

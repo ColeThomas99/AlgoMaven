@@ -14,12 +14,17 @@ namespace AlgoMaven.Backend.Algorithms
 
         public override async Task Run()
         {
+            isRunning = true;
             int buyCount = 0;
-            while (true)
+            while (isRunning)
             {
                 decimal price = 0;
                 long time = 0;
                 decimal rsi = CalculateRSI(out price, out time);
+
+                if (HasRCMTriggered(new object[] { price, time }))
+                    goto SKIP;
+
                 if (rsi <= 30)
                 {
                     //buy
@@ -41,6 +46,7 @@ namespace AlgoMaven.Backend.Algorithms
                     }
                 }
 
+                SKIP:
 #if DEBUG
                 await Task.Delay(4000);
 #else

@@ -2,6 +2,7 @@
 using AlgoMaven.Backend.Models;
 using AlgoMaven.Backend.MarketData;
 using AlgoMaven.Backend.Enums;
+using AlgoMaven.Backend.RiskControlMeasures;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AlgoMaven.Backend.Algorithms
@@ -19,15 +20,19 @@ namespace AlgoMaven.Backend.Algorithms
 		public override async Task Run()
 		{
             Console.WriteLine("Algorithm Started");
+			isRunning = true;
             int buyCount = 0;
 
-            while (true)
+            while (isRunning)
 			{
 				decimal price = 0;
 				long time = 0;
 				decimal jaw = CalculateSMA(13, out _, out _);
 				decimal teeth = CalculateSMA(8, out _, out _);
 				decimal lips = CalculateSMA(5, out price, out time);
+
+				if (HasRCMTriggered(new object[] { price, time } ))
+					goto SKIP;
 
 				if (lips > teeth)
 				{
@@ -53,13 +58,15 @@ namespace AlgoMaven.Backend.Algorithms
 						}
                     }
 				}
+
+				SKIP:
 #if DEBUG
 				await Task.Delay(4000);
 #else
 				await Task.Delay(60000);
 #endif
 			}
-
+			Console.WriteLine("Bot Stopped");
 			//return null;
 		}
 

@@ -14,12 +14,16 @@ namespace AlgoMaven.Backend.Algorithms
 
         public override async Task Run()
         {
+            isRunning = true;
             int buyCount = 0;
-            while (true)
+            while (isRunning)
             {
                 decimal price = 0;
                 long time = 0;
                 BreakOutArgs bArgs = HasBreakOut(out price, out time);
+
+                if (HasRCMTriggered(new object[] { price, time }))
+                    goto SKIP;
 
                 if (bArgs == BreakOutArgs.Buy)
                 {
@@ -39,6 +43,8 @@ namespace AlgoMaven.Backend.Algorithms
                         buyCount = 0;
                     }
                 }
+
+                SKIP:
 #if DEBUG
                 await Task.Delay(4000);
 #else

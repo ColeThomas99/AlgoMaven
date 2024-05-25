@@ -7,6 +7,7 @@ namespace AlgoMaven.Backend.Analytics
 	{
 		private const string DefaultFileName = "log.csv";
 		private const string PricesFileName = "prices.csv";
+		private const string ErrorFileName = "errors.csv";
 
 		public static async Task LogEvent(string? data = null, string file = DefaultFileName)
 		{
@@ -35,6 +36,12 @@ namespace AlgoMaven.Backend.Analytics
 			string data = $"{priceLogEvent.Date},{priceLogEvent.APIFetchStartTime},{priceLogEvent.APIFetchEndTime},{priceLogEvent.Name},{priceLogEvent.ID},{priceLogEvent.InstrumentName},{priceLogEvent.Value},{priceLogEvent.Extras}";
 			await LogEvent(data, PricesFileName);
 		}
+
+		public static async Task LogEvent(ErrorEvent errorEvent)
+		{
+            string data = $"{errorEvent.Date},{errorEvent.Name},{errorEvent.ID},{errorEvent.Value},{errorEvent.Action},{errorEvent.Extras}";
+			await LogEvent(data, ErrorFileName);
+        }
 
 		public static async Task CreateLogFile(string name = DefaultFileName)
 		{

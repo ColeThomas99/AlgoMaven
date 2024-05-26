@@ -11,6 +11,7 @@ namespace AlgoMaven.Backend.Models
 		public decimal SpendLimit = 1000;
 		public decimal MaxSpendLimit = 2000;
 		public List<RiskControlMeasureBase> RCMs = new List<RiskControlMeasureBase>();
+		public bool EnableCaching = false;
 	}
 }
 

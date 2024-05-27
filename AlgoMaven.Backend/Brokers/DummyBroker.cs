@@ -40,12 +40,12 @@ namespace AlgoMaven.Backend.Brokers
             }
         }
 
-        public override decimal GetAvailableFunds()
+        public override async Task<decimal> GetAvailableFunds()
         {
 			return Wallet.AvailableFunds;
         }
 
-        public override bool HasAvailableInstruments(FinancialInstrument instrument, decimal quantity)
+        public override async Task<bool> HasAvailableInstruments(FinancialInstrument instrument, decimal quantity)
         {
             if (Wallet.UserInstruments.FirstOrDefault(x => x.Instrument.TickerSYM == instrument.TickerSYM) == null)
                 return false;
@@ -61,7 +61,7 @@ namespace AlgoMaven.Backend.Brokers
             decimal quantity = 0;
             if (args.SellAll)
             {
-                quantity = GetQuantityOfIntrsument(args.Instrument);
+                quantity = await GetQuantityOfIntrsument(args.Instrument);
             }
             else
             {
@@ -74,7 +74,7 @@ namespace AlgoMaven.Backend.Brokers
             switch (type)
 			{
 				case ExchangeType.Buy:
-					if (GetAvailableFunds() >= price.Amount * quantity)
+					if (await GetAvailableFunds() >= price.Amount * quantity)
 					{
 						Wallet.AvailableFunds -= price.Amount * quantity;
 						AddInstrument(instrument, quantity);
@@ -83,7 +83,7 @@ namespace AlgoMaven.Backend.Brokers
 					}
 					break;
 				case ExchangeType.Sell:
-                    if (HasAvailableInstruments(instrument, quantity))
+                    if (await HasAvailableInstruments(instrument, quantity))
                     {
                         Wallet.UserInstruments.First(x => x.Instrument.TickerSYM == instrument.TickerSYM).Quantity -= quantity;
                         Wallet.AvailableFunds += price.Amount * quantity;
@@ -94,7 +94,7 @@ namespace AlgoMaven.Backend.Brokers
 			}
         }
 
-        public override List<FinancialInstrument> GetAvailableInstruments()
+        public override async Task<List<FinancialInstrument>> GetAvailableInstruments()
         {
             List<FinancialInstrument> result = new List<FinancialInstrument>();
 
@@ -106,7 +106,7 @@ namespace AlgoMaven.Backend.Brokers
             return result;
         }
 
-        public override decimal GetQuantityOfIntrsument(FinancialInstrument instrument)
+        public override async Task<decimal> GetQuantityOfIntrsument(FinancialInstrument instrument)
         {
             decimal result = 0;
             UserFinancialInstrument? userInstrument = Wallet.UserInstruments.FirstOrDefault(x => x.Instrument.Name == instrument.Name && x.Instrument.TickerSYM == instrument.TickerSYM);

@@ -6,4 +6,24 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Algorithms\" />
+    <None Remove="Analytics\" />
+    <None Remove="Bots\" />
+    <None Remove="Brokers\" />
+    <None Remove="Enums\" />
+    <None Remove="MarketData\" />
+    <None Remove="Models\" />
+    <None Remove="RiskControlMeasures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Algorithms\" />
+    <Folder Include="Analytics\" />
+    <Folder Include="Bots\" />
+    <Folder Include="Brokers\" />
+    <Folder Include="Enums\" />
+    <Folder Include="MarketData\" />
+    <Folder Include="Models\" />
+    <Folder Include="RiskControlMeasures\" />
+  </ItemGroup>
 </Project>

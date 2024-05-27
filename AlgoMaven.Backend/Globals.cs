@@ -3,6 +3,7 @@ using AlgoMaven.Backend.Models;
 using AlgoMaven.Backend.Enums;
 using AlgoMaven.Backend.MarketData;
 using System.Collections.Generic;
+using AlgoMaven.Backend.Analytics;
 
 namespace AlgoMaven.Backend
 {
@@ -110,16 +111,24 @@ namespace AlgoMaven.Backend
 
                 List<PriceUpdate>? prices = await MarketAPIS.First(x => x.Name == key).GetPricesAsync(instrument, start, end);
 
+				PriceLogEvent priceLogEvent = new PriceLogEvent()
+				{
+
+				};
+
+				if (Settings.EnableLogging)
+					Logger.LogEvent(priceLogEvent, prices);
+
 				lock (MarketAPIPrices)
 				{
 					MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Clear();
 					MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.AddRange(prices);
 
 					//Console.WriteLine($"From: {DateTimeOffset.FromUnixTimeMilliseconds(start)} To: {DateTimeOffset.FromUnixTimeMilliseconds(end)}");
-					foreach (PriceUpdate p in MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1)
-					{
+					//foreach (PriceUpdate p in MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1)
+					//{
 						//Console.WriteLine($"{p.Amount}");
-					}
+					//}
 					//Console.WriteLine($"Close {symbol}: {MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Last().Amount}");
 				}
 #if DEBUG

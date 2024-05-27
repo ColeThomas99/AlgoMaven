@@ -90,6 +90,7 @@ namespace AlgoMaven.Backend.MarketData
                     //count++;
                 }
             }
+            Globals.MarketAPIPrices[Name].Add(new(new List<PriceUpdate>(), InstrumentType.Crypto, "SSV", ""));
         }
 
         private List<PriceUpdate>? ProcessPriceResponse(string result)

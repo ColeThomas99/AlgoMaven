@@ -70,8 +70,8 @@ public class Program
         bot.User = user;
         bot.Options.BuyIncrement = (decimal)5;
         bot.Options.MaxBuyBeforeSell = 2;
-        bot.Options.RCMs.Add(new
-            TakeProfitRCM(){ TriggerPrice = 2 });
+        //bot.Options.RCMs.Add(new
+            //TakeProfitRCM(){ TriggerPrice = 2 });
         bot.Algorithm.Options = bot.Options;
         await bot.Run();
 

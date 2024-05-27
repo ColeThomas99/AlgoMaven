@@ -26,7 +26,7 @@ A basic Trading bot (currently only for paper trading) written in C# ASP.net Cor
 <h2>Broker Exchanges</h2>
 <ul>
   <li>Dummy (for paper trading/testing) [Done]</li>
-  <li>Binance [In Progress]</li>
+  <li>Binance [Done - Requires Testing]</li>
   <li>Coinbase [Todo]</li>
   <li>Kraken [Todo]</li>
 </ul>

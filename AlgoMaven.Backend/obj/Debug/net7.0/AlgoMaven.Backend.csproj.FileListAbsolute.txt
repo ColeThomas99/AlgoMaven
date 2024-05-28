@@ -31,3 +31,5 @@
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.pdb
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.genruntimeconfig.cache
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/ref/AlgoMaven.Backend.dll
+/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/AlgoMaven.Core.dll
+/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/AlgoMaven.Core.pdb

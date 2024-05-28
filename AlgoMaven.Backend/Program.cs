@@ -1,11 +1,11 @@
 ﻿using System;
-using AlgoMaven.Backend.Algorithms;
-using AlgoMaven.Backend.Bots;
-using AlgoMaven.Backend.Brokers;
-using AlgoMaven.Backend.Enums;
-using AlgoMaven.Backend.MarketData;
-using AlgoMaven.Backend.Models;
-using AlgoMaven.Backend.RiskControlMeasures;
+using AlgoMaven.Core.Algorithms;
+using AlgoMaven.Core.Bots;
+using AlgoMaven.Core.Brokers;
+using AlgoMaven.Core.Enums;
+using AlgoMaven.Core.MarketData;
+using AlgoMaven.Core.Models;
+using AlgoMaven.Core.RiskControlMeasures;
 
 namespace AlgoMaven.Backend;
 
@@ -31,14 +31,14 @@ public class Program
             //app.UseSwaggerUI();
         }
 
-        Globals globals = new Globals();
+        AlgoMaven.Core.Globals globals = new Core.Globals();
 
         //Globals.MarketAPIS.Add(new BinanceMarketDataAPI());
 
-        foreach (MarketDataAPIBase marketDataAPI in Globals.MarketAPIS)
+        foreach (MarketDataAPIBase marketDataAPI in AlgoMaven.Core.Globals.MarketAPIS)
             await marketDataAPI.InitMarketInstruments();
 
-        await Task.Run(() => Globals.ManageMasterMarketQueue());
+        await Task.Run(() => AlgoMaven.Core.Globals.ManageMasterMarketQueue());
 
         UserAccount user = new UserAccount();
         user.BrokerPlatforms.Add(new DummyBroker(ref user));
@@ -62,9 +62,9 @@ public class Program
             , user.BrokerPlatforms[0]);*/
         
         StandardBot bot = new StandardBot();
-        //bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
         //bot.Algorithm = new BreakoutAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
-        bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        //bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
        // bot.Instrument = user.BrokerPlatforms[0].Wallet.UserInstruments[2].Instrument;
         bot.Broker = user.BrokerPlatforms[0];
         bot.User = user;

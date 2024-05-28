@@ -82,32 +82,7 @@ namespace AlgoMaven.Backend.MarketData
                     new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 68980 },
                     new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 69110 },
                     new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 69187 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 69305 },/*
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 94 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 97 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 98 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 102 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 106 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 109 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 115 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 119 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 124 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 130 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 135 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 136 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 139 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 140 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 143 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 145 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 145 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 145 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 143 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 140 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 137 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 135 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 134 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 134 },
-                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 133 },*/
+                    new PriceUpdate { Instrument = instrument, Time = DateTimeOffset.UtcNow, Amount = 69305 }
                 };
 
                 Prices.Add(instrument, prices);

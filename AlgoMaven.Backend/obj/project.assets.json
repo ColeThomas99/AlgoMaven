@@ -107,6 +107,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "AlgoMaven.Core/0.2.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/AlgoMaven.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AlgoMaven.Core.dll": {}
+        }
       }
     }
   },
@@ -460,10 +470,16 @@
         "swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "AlgoMaven.Core/0.2.0": {
+      "type": "project",
+      "path": "../AlgoMaven.Core/AlgoMaven.Core.csproj",
+      "msbuildProject": "../AlgoMaven.Core/AlgoMaven.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "AlgoMaven.Core >= 0.2.0",
       "Microsoft.AspNetCore.OpenApi >= 7.0.17",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
@@ -495,7 +511,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Core/AlgoMaven.Core.csproj": {
+              "projectPath": "/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Core/AlgoMaven.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

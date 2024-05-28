@@ -75,4 +75,9 @@
     <Folder Include="Analytics\" />
     <Folder Include="Brokers\Kraken\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlgoMaven.Core\AlgoMaven.Core.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

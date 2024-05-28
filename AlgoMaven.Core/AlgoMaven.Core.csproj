@@ -4,7 +4,24 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ReleaseVersion>0.2</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
+
+  <PropertyGroup>
+  <PackageId>AlgoMaven.Core</PackageId>
+  <Version>0.2</Version>
+  <Authors>Cole Thomas</Authors>
+  <Description>(BETA) A simple cross-platform trading bot. This is still under development and should not be used in production at this moment in time.</Description>
+  <PackageTags>trade;crypto;stock;trading;algorithm;shares</PackageTags>
+  <PackageProjectUrl>"https://github.com/ColeThomas99/AlgoMaven"</PackageProjectUrl>
+  <RepositoryUrl>"https://github.com/ColeThomas99/AlgoMaven"</RepositoryUrl>
+  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  <PackageReleaseNotes>.</PackageReleaseNotes>
+  <Copyright>Copyright (c) 2024 Cole Thomas. All rights reserved.</Copyright>
+</PropertyGroup>
+
 
   <ItemGroup>
     <None Remove="Algorithms\" />
@@ -15,6 +32,21 @@
     <None Remove="MarketData\" />
     <None Remove="Models\" />
     <None Remove="RiskControlMeasures\" />
+    <None Remove="Brokers\Binance\" />
+    <None Remove="Brokers\Coinbase\" />
+    <None Remove="Brokers\Coindesk\" />
+    <None Remove="Brokers\Kraken\" />
+    <None Remove="Brokers\Binance\Requests\" />
+    <None Remove="Brokers\Binance\Responses\" />
+    <None Remove="Brokers\Coinbase\Requests\" />
+    <None Remove="Brokers\Coinbase\Responses\" />
+    <None Remove="Brokers\Coindesk\Requests\" />
+    <None Remove="Brokers\Coindesk\Responses\" />
+    <None Remove="MarketData\Binance\" />
+    <None Remove="MarketData\Coinbase\" />
+    <None Remove="MarketData\CoinDesk\" />
+    <None Remove="MarketData\Binance\Requests\" />
+    <None Remove="MarketData\Binance\Responses\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithms\" />
@@ -25,5 +57,20 @@
     <Folder Include="MarketData\" />
     <Folder Include="Models\" />
     <Folder Include="RiskControlMeasures\" />
+    <Folder Include="Brokers\Binance\" />
+    <Folder Include="Brokers\Coinbase\" />
+    <Folder Include="Brokers\Coindesk\" />
+    <Folder Include="Brokers\Kraken\" />
+    <Folder Include="Brokers\Binance\Requests\" />
+    <Folder Include="Brokers\Binance\Responses\" />
+    <Folder Include="Brokers\Coinbase\Requests\" />
+    <Folder Include="Brokers\Coinbase\Responses\" />
+    <Folder Include="Brokers\Coindesk\Requests\" />
+    <Folder Include="Brokers\Coindesk\Responses\" />
+    <Folder Include="MarketData\Binance\" />
+    <Folder Include="MarketData\Coinbase\" />
+    <Folder Include="MarketData\CoinDesk\" />
+    <Folder Include="MarketData\Binance\Requests\" />
+    <Folder Include="MarketData\Binance\Responses\" />
   </ItemGroup>
 </Project>

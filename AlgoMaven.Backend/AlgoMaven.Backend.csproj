@@ -14,66 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Algorithms\" />
-    <None Remove="Models\" />
     <None Remove="Controllers\" />
-    <None Remove="Bots\" />
-    <None Remove="Brokers\" />
-    <None Remove="Models\Args\" />
-    <None Remove="Enums\" />
-    <None Remove="MarketData\" />
-    <None Remove="RiskControlMeasures\" />
-    <None Remove="MarketData\Binance\" />
-    <None Remove="MarketData\Coinbase\" />
-    <None Remove="MarketData\CoinDesk\" />
-    <None Remove="MarketData\Binance\Requests\" />
-    <None Remove="MarketData\Binance\Responses\" />
-    <None Remove="MarketData\Coinbase\Requests\" />
-    <None Remove="MarketData\Coinbase\Responses\" />
-    <None Remove="MarketData\CoinDesk\Requests\" />
-    <None Remove="MarketData\CoinDesk\Responses\" />
-    <None Remove="Brokers\Binance\" />
-    <None Remove="Brokers\Coinbase\" />
-    <None Remove="Brokers\Coindesk\" />
-    <None Remove="Brokers\Binance\Requests\" />
-    <None Remove="Brokers\Binance\Responses\" />
-    <None Remove="Brokers\Coinbase\Requests\" />
-    <None Remove="Brokers\Coinbase\Responses\" />
-    <None Remove="Brokers\Coindesk\Requests\" />
-    <None Remove="Brokers\Coindesk\Responses\" />
-    <None Remove="Analytics\" />
-    <None Remove="Brokers\Kraken\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Algorithms\" />
-    <Folder Include="Models\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Bots\" />
-    <Folder Include="Brokers\" />
-    <Folder Include="Models\Args\" />
-    <Folder Include="Enums\" />
-    <Folder Include="MarketData\" />
-    <Folder Include="RiskControlMeasures\" />
-    <Folder Include="MarketData\Binance\" />
-    <Folder Include="MarketData\Coinbase\" />
-    <Folder Include="MarketData\CoinDesk\" />
-    <Folder Include="MarketData\Binance\Requests\" />
-    <Folder Include="MarketData\Binance\Responses\" />
-    <Folder Include="MarketData\Coinbase\Requests\" />
-    <Folder Include="MarketData\Coinbase\Responses\" />
-    <Folder Include="MarketData\CoinDesk\Requests\" />
-    <Folder Include="MarketData\CoinDesk\Responses\" />
-    <Folder Include="Brokers\Binance\" />
-    <Folder Include="Brokers\Coinbase\" />
-    <Folder Include="Brokers\Coindesk\" />
-    <Folder Include="Brokers\Binance\Requests\" />
-    <Folder Include="Brokers\Binance\Responses\" />
-    <Folder Include="Brokers\Coinbase\Requests\" />
-    <Folder Include="Brokers\Coinbase\Responses\" />
-    <Folder Include="Brokers\Coindesk\Requests\" />
-    <Folder Include="Brokers\Coindesk\Responses\" />
-    <Folder Include="Analytics\" />
-    <Folder Include="Brokers\Kraken\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlgoMaven.Core\AlgoMaven.Core.csproj">

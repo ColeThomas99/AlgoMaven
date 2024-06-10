@@ -10,6 +10,8 @@
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/AlgoMaven.Core.dll
+/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/AlgoMaven.Core.pdb
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.csproj.AssemblyReference.cache
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.GeneratedMSBuildEditorConfig.editorconfig
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.AssemblyInfoInputs.cache
@@ -31,5 +33,3 @@
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.pdb
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/AlgoMaven.Backend.genruntimeconfig.cache
 /Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/obj/Debug/net7.0/ref/AlgoMaven.Backend.dll
-/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/AlgoMaven.Core.dll
-/Users/ct/Projects/AlgoMaven.Backend/AlgoMaven.Backend/bin/Debug/net7.0/AlgoMaven.Core.pdb

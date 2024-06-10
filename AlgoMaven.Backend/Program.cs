@@ -62,9 +62,9 @@ public class Program
             , user.BrokerPlatforms[0]);*/
         
         StandardBot bot = new StandardBot();
-        bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        //bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
         //bot.Algorithm = new BreakoutAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
-        //bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
        // bot.Instrument = user.BrokerPlatforms[0].Wallet.UserInstruments[2].Instrument;
         bot.Broker = user.BrokerPlatforms[0];
         bot.User = user;
@@ -73,7 +73,7 @@ public class Program
         //bot.Options.RCMs.Add(new
             //TakeProfitRCM(){ TriggerPrice = 2 });
         bot.Algorithm.Options = bot.Options;
-        await bot.Run();
+        Task.Run(bot.Run);
 
         BinanceMarketDataAPI m = new BinanceMarketDataAPI();
         List<PriceUpdate>? p = await m.GetPricesAsync(new FinancialInstrument { TickerSYM = "BTC" }, 1713139200000, 1713139900000, "1m", 5);

@@ -12,7 +12,7 @@ namespace AlgoMaven.Core.Bots
         {
             await base.Run();
             Console.WriteLine("Bot Started");
-            await Algorithm.Run();
+            await Algorithm.RunAlgorithm();
         }
     }
 }

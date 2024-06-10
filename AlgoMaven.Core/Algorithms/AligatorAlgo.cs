@@ -12,84 +12,49 @@ namespace AlgoMaven.Core.Algorithms
         public AligatorAlgo(FinancialInstrument instrument) : base(instrument)
         {
             Auths = new Dictionary<string, string>();
+            Algorithm = this;
         }
 
-        public override async Task Run()
+        public override async Task Run(decimal currentPrice, long time, List<PriceUpdate> prices)
         {
-            Console.WriteLine("Algorithm Started");
-            isRunning = true;
-            int buyCount = 0;
+            decimal jaw = CalculateSMA(13, prices);
+            decimal teeth = CalculateSMA(8, prices);
+            decimal lips = CalculateSMA(5, prices);
 
-            while (isRunning)
+            if (lips > teeth)
             {
-                decimal price = 0;
-                long time = 0;
-                decimal jaw = CalculateSMA(13, out _, out _);
-                decimal teeth = CalculateSMA(8, out _, out _);
-                decimal lips = CalculateSMA(5, out price, out time);
-
-                if (HasRCMTriggered(new object[] { price, time }))
-                    goto SKIP;
-
-                if (lips > teeth)
+                if (lips >= jaw && teeth >= jaw)
                 {
-                    if (lips >= jaw && teeth >= jaw)
+                    if (BuyCount + 1 <= Options.MaxBuyBeforeSell)
                     {
-                        if (buyCount + 1 <= Options.MaxBuyBeforeSell)
-                        {
-                            ExecuteTrade(price, time, ExchangeType.Buy);
-                            LastTradeType = ExchangeType.Buy;
-                            buyCount++;
-                        }
+                        ExecuteTrade(currentPrice, time, ExchangeType.Buy);
+                        LastTradeType = ExchangeType.Buy;
+                        BuyCount++;
                     }
                 }
-                else if (lips < teeth)
-                {
-                    if (lips < jaw && teeth < jaw)
-                    {
-                        if (LastTradeType != ExchangeType.Sell)
-                        {
-                            ExecuteTrade(price, time, ExchangeType.Sell);
-                            LastTradeType = ExchangeType.Sell;
-                            buyCount = 0;
-                        }
-                    }
-                }
-
-            SKIP:
-#if DEBUG
-                await Task.Delay(4000);
-#else
-				await Task.Delay(60000);
-#endif
             }
-            Console.WriteLine("Bot Stopped");
-            //return null;
+            else if (lips < teeth)
+            {
+                if (lips < jaw && teeth < jaw)
+                {
+                    if (LastTradeType != ExchangeType.Sell)
+                    {
+                        ExecuteTrade(currentPrice, time, ExchangeType.Sell);
+                        LastTradeType = ExchangeType.Sell;
+                        BuyCount = 0;
+                    }
+                }
+            }
         }
 
-        public decimal CalculateSMA(int period, out decimal price, out long time, bool debug = false, int index = 0)
+        public decimal CalculateSMA(int period, List<PriceUpdate> prices)
         {
             //TODO if any price returns NULL then terminate the algorithm and terminate the bot
-            //decimal value = 0;
             List<decimal> result = new List<decimal>();
-            price = 0;
-            time = 0;
-
-            //List<PriceUpdate> prices = Globals.MarketAPIPrices["Binance"].First(x => x.Item3 == Instrument.TickerSYM).Item1.TakeLast(period).ToList();
-            List<PriceUpdate> prices = Globals.MarketAPIPrices
-                [Globals.MarketAPIRankings.First(x => x.Value.Item1 == InstrumentType.Crypto).Key
-                ].First(x => x.Item3 == Instrument.TickerSYM).Item1.TakeLast(period).ToList();
-            prices.Reverse();
 
             for (int i = 0; i < period; i++)
                 if (prices.Count >= i + 1)
                     result.Add(prices[i].Amount);
-
-            if (prices.Count > 0)
-            {
-                price = prices[0].Amount;
-                time = prices[0].Time.ToUnixTimeMilliseconds();
-            }
 
             if (result.Count > 0)
                 return result.Average();

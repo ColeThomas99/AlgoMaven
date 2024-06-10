@@ -13,9 +13,11 @@ namespace AlgoMaven.Core.Algorithms
         public ExchangeType LastTradeType { get; set; }
         public BotOptions Options { get; set; }
         public Dictionary<string, string> Auths { get; set; }
-        public abstract Task Run();
+        public abstract Task Run(decimal currentPrice, long time, List<PriceUpdate> prices);
         protected FinancialInstrument Instrument;
-        public bool isRunning = false;
+        protected int BuyCount = 0;
+        public bool IsRunning = false;
+        protected AlgorithmBase Algorithm { get; set; }
 
         public AlgorithmBase(FinancialInstrument instrument)
         {
@@ -36,6 +38,50 @@ namespace AlgoMaven.Core.Algorithms
                 handler(this, args);
         }
 
+        protected List<PriceUpdate> GetInstrumentPrices(out decimal price, out long time)
+        {
+            List<PriceUpdate> prices = new List<PriceUpdate>();
+            time = 0;
+            price = 0;
+
+            prices = Globals.MarketAPIPrices
+               [Globals.MarketAPIRankings.First(x => x.Value.Item1 == InstrumentType.Crypto).Key
+               ].First(x => x.Item3 == Instrument.TickerSYM).Item1.TakeLast(100).ToList();
+            prices.Reverse();
+
+            if (prices.Count > 0)
+            {
+                price = prices[0].Amount;
+                time = prices[0].Time.ToUnixTimeMilliseconds();
+            }
+
+            return prices;
+        }
+
+        public async Task RunAlgorithm()
+        {
+            Console.WriteLine("Algorithm Started");
+            IsRunning = true;
+            BuyCount = 0;
+
+            while (IsRunning)
+            {
+                decimal price = 0;
+                long time = 0;
+                List<PriceUpdate> prices = GetInstrumentPrices(out price, out time);
+
+                if (!HasRCMTriggered(new object[] { price, time}))
+                    await Algorithm.Run(price, time, prices);
+#if DEBUG
+                await Task.Delay(4000);
+#else
+                await Task.Delay(60000);
+#endif
+            }
+
+            Console.WriteLine("Algorithm Stopped");
+        }
+
         protected bool HasRCMTriggered(object[] args)
         {
             if (!ValidateRCMArgs(args))
@@ -54,7 +100,7 @@ namespace AlgoMaven.Core.Algorithms
                     if ((rcm.RCMAction | RCMAction.Sell) != 0)
                         ExecuteTrade(price, time, ExchangeType.Sell);
                     if ((rcm.RCMAction | RCMAction.Terminate) != 0)
-                        isRunning = false;
+                        IsRunning = false;
 
                     Console.WriteLine("RCM Triggered");
                     result = true;
@@ -77,7 +123,7 @@ namespace AlgoMaven.Core.Algorithms
             return result;
         }
 
-        public void ExecuteTrade(decimal price, long time, ExchangeType type)
+        protected void ExecuteTrade(decimal price, long time, ExchangeType type)
         {
             TradeSignalArgs args = new TradeSignalArgs();
             args.Instrument = Instrument;

@@ -9,61 +9,36 @@ namespace AlgoMaven.Core.Algorithms
         public RelativeStrengthAlgo(FinancialInstrument instrument) : base(instrument)
         {
             Auths = new Dictionary<string, string>();
+            Algorithm = this;
         }
 
-        public override async Task Run()
+        public override async Task Run(decimal currentPrice, long time, List<PriceUpdate> prices)
         {
-            isRunning = true;
-            int buyCount = 0;
-            while (isRunning)
+            decimal rsi = CalculateRSI(prices);
+
+            if (rsi <= 30)
             {
-                decimal price = 0;
-                long time = 0;
-                decimal rsi = CalculateRSI(out price, out time);
-
-                if (HasRCMTriggered(new object[] { price, time }))
-                    goto SKIP;
-
-                if (rsi <= 30)
+                if (BuyCount + 1 <= Options.MaxBuyBeforeSell)
                 {
-                    //buy
-                    if (buyCount + 1 <= Options.MaxBuyBeforeSell)
-                    {
-                        ExecuteTrade(price, time, ExchangeType.Buy);
-                        LastTradeType = ExchangeType.Buy;
-                        buyCount++;
-                    }
+                    ExecuteTrade(currentPrice, time, ExchangeType.Buy);
+                    LastTradeType = ExchangeType.Buy;
+                    BuyCount++;
                 }
-                else if (rsi >= 70)
+            }
+            else if (rsi >= 70)
+            {
+                if (LastTradeType != ExchangeType.Sell)
                 {
-                    //sell
-                    if (LastTradeType != ExchangeType.Sell)
-                    {
-                        ExecuteTrade(price, time, ExchangeType.Sell);
-                        LastTradeType = ExchangeType.Sell;
-                        buyCount = 0;
-                    }
+                    ExecuteTrade(currentPrice, time, ExchangeType.Sell);
+                    LastTradeType = ExchangeType.Sell;
+                    BuyCount = 0;
                 }
-
-            SKIP:
-#if DEBUG
-                await Task.Delay(4000);
-#else
-                await Task.Delay(60000);
-#endif
             }
         }
 
-        public decimal CalculateRSI(out decimal price, out long time, int period = 14)
+        public decimal CalculateRSI(List<PriceUpdate> prices, int period = 14)
         {
             decimal result = 0;
-            price = 0;
-            time = 0;
-
-            List<PriceUpdate> prices = Globals.MarketAPIPrices
-               [Globals.MarketAPIRankings.First(x => x.Value.Item1 == InstrumentType.Crypto).Key
-               ].First(x => x.Item3 == Instrument.TickerSYM).Item1.TakeLast(period).ToList();
-            prices.Reverse();
 
             List<decimal> profits = new List<decimal>();
             List<decimal> losses = new List<decimal>();
@@ -74,17 +49,7 @@ namespace AlgoMaven.Core.Algorithms
                 if (change >= 0)
                     profits.Add(change);
                 else
-                {
                     losses.Add(Math.Abs(change));
-                    //Console.WriteLine(change);
-                    //Console.WriteLine(Math.Abs(change));
-                }
-            }
-
-            if (prices.Count > 0)
-            {
-                price = prices[0].Amount;
-                time = prices[0].Time.ToUnixTimeMilliseconds();
             }
 
             decimal avgProfits = 1;
@@ -95,11 +60,9 @@ namespace AlgoMaven.Core.Algorithms
             if (losses.Count > 0)
                 avgLosses = losses.Average();
 
-            decimal RSIone = 100 - (100 / (1 + (avgProfits / avgLosses)));
-            //RSI second step todo
+            result = 100 - (100 / (1 + (avgProfits / avgLosses)));
 
-            return RSIone;
-            //return result;
+            return result;
         }
     }
 }

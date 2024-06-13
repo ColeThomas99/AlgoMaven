@@ -63,13 +63,14 @@ public class Program
         
         StandardBot bot = new StandardBot();
         //bot.Algorithm = new AligatorAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
-        //bot.Algorithm = new BreakoutAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
-        bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        bot.Algorithm = new BreakoutAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
+        //bot.Algorithm = new RelativeStrengthAlgo(user.BrokerPlatforms[0].Wallet.UserInstruments[0].Instrument);
        // bot.Instrument = user.BrokerPlatforms[0].Wallet.UserInstruments[2].Instrument;
         bot.Broker = user.BrokerPlatforms[0];
         bot.User = user;
         bot.Options.BuyIncrement = (decimal)5;
         bot.Options.MaxBuyBeforeSell = 2;
+        bot.Options.TradingFrequency = 5;
         //bot.Options.RCMs.Add(new
             //TakeProfitRCM(){ TriggerPrice = 2 });
         bot.Algorithm.Options = bot.Options;

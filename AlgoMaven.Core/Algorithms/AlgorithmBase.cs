@@ -44,16 +44,22 @@ namespace AlgoMaven.Core.Algorithms
             time = 0;
             price = 0;
 
-            prices = Globals.MarketAPIPrices
-               [Globals.MarketAPIRankings.First(x => x.Value.Item1 == InstrumentType.Crypto).Key
-               ].First(x => x.Item3 == Instrument.TickerSYM).Item1.TakeLast(100).ToList();
-            prices.Reverse();
+            lock (Globals.MarketAPIPrices)
+            {
+                prices = Globals.MarketAPIPrices
+                   [Globals.MarketAPIRankings.First(x => x.Value.Item1 == InstrumentType.Crypto).Key
+                   ].First(x => x.Item3 == Instrument.TickerSYM).Item1.ToList();
+                prices.Reverse();
+            }
 
             if (prices.Count > 0)
             {
                 price = prices[0].Amount;
                 time = prices[0].Time.ToUnixTimeMilliseconds();
             }
+
+            Console.WriteLine($"CURRENT TIME {time}");
+            Console.WriteLine($"CURRENT PRICE {price}");
 
             return prices;
         }
@@ -73,9 +79,9 @@ namespace AlgoMaven.Core.Algorithms
                 if (!HasRCMTriggered(new object[] { price, time}))
                     await Algorithm.Run(price, time, prices);
 #if DEBUG
-                await Task.Delay(4000);
+                await Task.Delay(7000 * Options.TradingFrequency);
 #else
-                await Task.Delay(60000);
+                await Task.Delay(60000 * Options.TradingFrequency);
 #endif
             }
 

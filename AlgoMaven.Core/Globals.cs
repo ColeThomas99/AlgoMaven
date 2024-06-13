@@ -101,8 +101,8 @@ namespace AlgoMaven.Core
                 FinancialInstrument instrument = new FinancialInstrument() { Name = name, TickerSYM = symbol, InstrumentType = type };
 
 #if DEBUG
-                start = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(100).ToUnixTimeMilliseconds();
-                end = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(100).ToUnixTimeMilliseconds();
+                start = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(1).ToUnixTimeMilliseconds();
+                end = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(1).ToUnixTimeMilliseconds();
 #else
 				start = DateTimeOffset.Now.AddMinutes(-100).ToUnixTimeMilliseconds();//
 				end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
@@ -120,9 +120,8 @@ namespace AlgoMaven.Core
 
                 lock (MarketAPIPrices)
                 {
-                    MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Clear();
-                    MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.AddRange(prices);
-
+                    //MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Clear();
+                    MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.AddRange(prices); 
                     //Console.WriteLine($"From: {DateTimeOffset.FromUnixTimeMilliseconds(start)} To: {DateTimeOffset.FromUnixTimeMilliseconds(end)}");
                     //foreach (PriceUpdate p in MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1)
                     //{
@@ -131,7 +130,7 @@ namespace AlgoMaven.Core
                     //Console.WriteLine($"Close {symbol}: {MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Last().Amount}");
                 }
 #if DEBUG
-                await Task.Delay(3000);
+                await Task.Delay(6000);
 #else
 				await Task.Delay(60000);
 #endif

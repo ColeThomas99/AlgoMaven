@@ -12,6 +12,7 @@ namespace AlgoMaven.Core.Models
         public decimal MaxSpendLimit = 2000;
         public List<RiskControlMeasureBase> RCMs = new List<RiskControlMeasureBase>();
         public bool EnableCaching = false;
+        public int TradingFrequency = 5; //minutes
     }
 }
 

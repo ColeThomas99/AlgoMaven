@@ -3,7 +3,7 @@ namespace AlgoMaven.Core
 {
     public class Settings
     {
-        public static bool EnableLogging = true;
+        public static bool EnableLogging = false;
     }
 }
 

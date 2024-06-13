@@ -92,19 +92,36 @@ namespace AlgoMaven.Core
 			 */
         }
 
+        private static async Task InitInstrumentPrices(string key, FinancialInstrument instrument, string symbol, long end)
+        {
+            long start = DateTimeOffset.FromUnixTimeMilliseconds(end).AddMinutes(-100).ToUnixTimeMilliseconds();
+            List<PriceUpdate>? prices = await MarketAPIS.First(x => x.Name == key).GetPricesAsync(instrument, start, end);
+            lock (MarketAPIPrices)
+            {
+                MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.AddRange(prices);
+            }
+        }
+
         private static async Task ManageInstrumentQueue(string key, InstrumentType type, string name, string symbol)
         {
-            long start = 1713394800000;
-            long end = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(100).ToUnixTimeMilliseconds();
+            long end, start;
+#if DEBUG
+            end = 1713394800000;
+            start = DateTimeOffset.FromUnixTimeMilliseconds(end).AddMinutes(-1).ToUnixTimeMilliseconds();
+#else
+            end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            start = DateTimeOffset.Now.AddMinutes(-1).ToUnixTimeMilliseconds();
+#endif
+            FinancialInstrument instrument = new FinancialInstrument() { Name = name, TickerSYM = symbol, InstrumentType = type };
+            await InitInstrumentPrices(key, instrument, symbol, end);
+
             while (true)
             {
-                FinancialInstrument instrument = new FinancialInstrument() { Name = name, TickerSYM = symbol, InstrumentType = type };
-
 #if DEBUG
-                start = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(1).ToUnixTimeMilliseconds();
-                end = DateTimeOffset.FromUnixTimeMilliseconds(start).AddMinutes(1).ToUnixTimeMilliseconds();
+                end = DateTimeOffset.FromUnixTimeMilliseconds(end).AddMinutes(1).ToUnixTimeMilliseconds();
+                start = DateTimeOffset.FromUnixTimeMilliseconds(end).AddMinutes(-1).ToUnixTimeMilliseconds();
 #else
-				start = DateTimeOffset.Now.AddMinutes(-100).ToUnixTimeMilliseconds();//
+				start = DateTimeOffset.Now.AddMinutes(-1).ToUnixTimeMilliseconds();//
 				end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 #endif
 
@@ -120,14 +137,7 @@ namespace AlgoMaven.Core
 
                 lock (MarketAPIPrices)
                 {
-                    //MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Clear();
                     MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.AddRange(prices); 
-                    //Console.WriteLine($"From: {DateTimeOffset.FromUnixTimeMilliseconds(start)} To: {DateTimeOffset.FromUnixTimeMilliseconds(end)}");
-                    //foreach (PriceUpdate p in MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1)
-                    //{
-                    //Console.WriteLine($"{p.Amount}");
-                    //}
-                    //Console.WriteLine($"Close {symbol}: {MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.Last().Amount}");
                 }
 #if DEBUG
                 await Task.Delay(6000);

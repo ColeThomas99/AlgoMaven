@@ -58,7 +58,7 @@ namespace AlgoMaven.Core.Algorithms
                 time = prices[0].Time.ToUnixTimeMilliseconds();
             }
 
-            Console.WriteLine($"CURRENT TIME {time}");
+            Console.WriteLine($"CURRENT TIME {time} : {DateTimeOffset.FromUnixTimeMilliseconds(time)}");
             Console.WriteLine($"CURRENT PRICE {price}");
 
             return prices;

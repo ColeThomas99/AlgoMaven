@@ -8,18 +8,25 @@
     <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
 
+
+  <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
   <PropertyGroup>
+  <PackageReadmeFile>README.md</PackageReadmeFile>
   <PackageId>AlgoMaven.Core</PackageId>
   <Version>0.2</Version>
   <Authors>Cole Thomas</Authors>
-  <Description>(BETA) A simple cross-platform trading bot. This is still under development and should not be used in production at this moment in time.</Description>
+  <Description>Important: This should not be used for any reasons other than testing as it is still under development. A simple cross-platform trading bot. This is still under development and should not be used in production at this moment in time.</Description>
   <PackageTags>trade;crypto;stock;trading;algorithm;shares</PackageTags>
-  <PackageProjectUrl>"https://github.com/ColeThomas99/AlgoMaven"</PackageProjectUrl>
-  <RepositoryUrl>"https://github.com/ColeThomas99/AlgoMaven"</RepositoryUrl>
+  <PackageProjectUrl>https://github.com/ColeThomas99/AlgoMaven</PackageProjectUrl>
+  <RepositoryUrl>https://github.com/ColeThomas99/AlgoMaven</RepositoryUrl>
   <PackageLicenseExpression>MIT</PackageLicenseExpression>
   <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   <PackageReleaseNotes>.</PackageReleaseNotes>
   <Copyright>Copyright (c) 2024 Cole Thomas. All rights reserved.</Copyright>
+  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 </PropertyGroup>
 
 
@@ -47,6 +54,7 @@
     <None Remove="MarketData\CoinDesk\" />
     <None Remove="MarketData\Binance\Requests\" />
     <None Remove="MarketData\Binance\Responses\" />
+    <None Remove="DataTypes\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithms\" />
@@ -72,5 +80,6 @@
     <Folder Include="MarketData\CoinDesk\" />
     <Folder Include="MarketData\Binance\Requests\" />
     <Folder Include="MarketData\Binance\Responses\" />
+    <Folder Include="DataTypes\" />
   </ItemGroup>
 </Project>

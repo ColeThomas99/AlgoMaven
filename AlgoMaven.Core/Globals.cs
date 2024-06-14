@@ -137,7 +137,7 @@ namespace AlgoMaven.Core
 
                 lock (MarketAPIPrices)
                 {
-                    MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.AddRange(prices); 
+                    MarketAPIPrices[key].First(x => x.Item3 == symbol).Item1.InsertRange(0,prices); 
                 }
 #if DEBUG
                 await Task.Delay(6000);

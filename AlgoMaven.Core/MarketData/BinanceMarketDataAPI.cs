@@ -47,6 +47,7 @@ namespace AlgoMaven.Core.MarketData
             string result = await GetAsync(uri);
 
             prices = ProcessPriceResponse(result);
+            prices?.Reverse();
 
             return prices;
         }

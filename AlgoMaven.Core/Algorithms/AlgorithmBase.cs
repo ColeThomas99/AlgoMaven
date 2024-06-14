@@ -49,13 +49,12 @@ namespace AlgoMaven.Core.Algorithms
                 prices = Globals.MarketAPIPrices
                    [Globals.MarketAPIRankings.First(x => x.Value.Item1 == InstrumentType.Crypto).Key
                    ].First(x => x.Item3 == Instrument.TickerSYM).Item1.ToList();
-                prices.Reverse();
             }
 
             if (prices.Count > 0)
             {
-                price = prices[0].Amount;
-                time = prices[0].Time.ToUnixTimeMilliseconds();
+                price = prices.First().Amount;
+                time = prices.First().Time.ToUnixTimeMilliseconds();
             }
 
             Console.WriteLine($"CURRENT TIME {time} : {DateTimeOffset.FromUnixTimeMilliseconds(time)}");
@@ -66,7 +65,7 @@ namespace AlgoMaven.Core.Algorithms
 
         public async Task RunAlgorithm()
         {
-            Console.WriteLine("Algorithm Started");
+            Console.WriteLine($"Algorithm Started: {Algorithm.GetType()}");
             IsRunning = true;
             BuyCount = 0;
 

@@ -38,7 +38,6 @@ namespace AlgoMaven.Core.Algorithms
 
         public BreakOutArgs HasBreakOut(List<PriceUpdate> prices, decimal price,int period = 20)
         {
-
             decimal low = prices.Skip(1).Take(period).Min(x => x.Amount);
             decimal high = prices.Skip(1).Take(period).Max(x => x.Amount);
 
